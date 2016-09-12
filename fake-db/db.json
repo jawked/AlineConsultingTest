@@ -1,49 +1,76 @@
 {
   "grid": [
     {
-      "align": "right",
+      "align": "center",
+      "bold": false,
       "text": "Toyota",
-      "id": 1
+      "id": 1,
+      "italic": true,
+      "fontSize": 16
     },
     {
       "id": 2,
       "text": "Lamborghini",
-      "align": "center"
+      "align": "center",
+      "bold": true,
+      "italic": true,
+      "fontSize": 14
     },
     {
       "text": "Something",
-      "align": "left",
-      "id": 3
+      "align": "center",
+      "bold": false,
+      "id": 3,
+      "italic": false,
+      "fontSize": 12
     },
     {
-      "align": "right",
+      "align": "center",
       "text": "Ford",
-      "id": 4
+      "bold": true,
+      "id": 4,
+      "italic": true,
+      "fontSize": 14
     },
     {
-      "align": "left",
+      "align": "center",
       "text": "Mercedes",
-      "id": 5
+      "bold": false,
+      "id": 5,
+      "italic": true,
+      "fontSize": 12
     },
     {
       "id": 6,
       "text": "Aston Martin",
-      "align": "right"
+      "bold": true,
+      "align": "center",
+      "italic": false,
+      "fontSize": 12
     },
     {
       "id": 7,
       "text": "Porsche",
-      "align": "left"
+      "bold": false,
+      "align": "center",
+      "italic": false,
+      "fontSize": 14
     },
     {
       "id": 8,
       "text": "Bentley",
-      "align": "center"
+      "bold": true,
+      "align": "center",
+      "italic": true,
+      "fontSize": 14
     },
     {
       "id": 9,
       "text": "Bugatti",
-      "align": "center"
+      "bold": false,
+      "align": "center",
+      "italic": false,
+      "fontSize": 14
     }
   ]
 }
