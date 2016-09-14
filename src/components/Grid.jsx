@@ -1,7 +1,7 @@
 import React from 'react'
 import {AgGridReact, reactCellRendererFactory} from 'ag-grid-react'
 import GridCell from './Grid.Cell'
-import request from 'superagent'
+import request from 'superagent-es6-promise';
 import RaisedButton from 'material-ui/RaisedButton'
 import MenuItem from 'material-ui/MenuItem'
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
@@ -11,11 +11,9 @@ import DropDownMenu from 'material-ui/DropDownMenu'
 import _ from 'lodash'
 import bind from 'autobind-decorator'
 
-const COLUMN_NUM = 4;
-
 export default class Grid extends React.Component {
     state = {
-        data: [],
+        rows: [],
         headers: [],
         cellInstance: null,
         notSavedChanges: []
@@ -28,27 +26,37 @@ export default class Grid extends React.Component {
             handleCellClick: this.setCellInstance,
         };
 
-        request.get('/api/grid/').end((err, res) => {
-            this.setState({
-                data: _.map(_.chunk(res.body, COLUMN_NUM), cell => (
-                    _.zipObject(_.times(COLUMN_NUM), cell)
-                ))
-            })
-        });
-
         const headers = [{ headerName: "#", valueGetter: "node.id / 1 + 1" }];
 
-        _.times(COLUMN_NUM, i => {
-            headers.push({
-                headerName: i,
-                field: i + '',
-                cellRenderer,
-                cellRendererParams
+        Promise.all([
 
-            })
+            request.get('/api/HEADERS/').then(({ body }) => body),
+            request.get('/api/ROWS/').then(({ body }) => body),
+            request.get('/api/META/').then(({ body }) => body),
+
+        ]).then(([HEADERS, ROWS, META]) => {
+
+            _.forOwn(HEADERS, (field, headerName) => {
+                headers.push({
+                    headerName,
+                    field,
+                    cellRenderer,
+                    cellRendererParams
+                })
+            });
+
+            const rows = _.map(ROWS, (row, index) => {
+                return _.mapValues(row, (cellValue, header) => {
+                    return {
+                        ...META[index][header],
+                        text: cellValue
+                    }
+                })
+            });
+
+            this.setState({ headers, rows })
+
         });
-
-        this.setState({ headers })
 
     }
 
@@ -173,7 +181,7 @@ export default class Grid extends React.Component {
 
             <AgGridReact
                 columnDefs={this.state.headers}
-                rowData={this.state.data}
+                rowData={this.state.rows}
             />
 
         </div>

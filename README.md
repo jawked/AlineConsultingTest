@@ -6,3 +6,7 @@ Install
 To run development server: 
 
     npm start
+
+To generate fake db:
+
+    npm run generate-fake-db
